@@ -13,7 +13,7 @@ public static class CustomMenuAdmob
     private const string manifestFilePrefix = "GoogleMobileAds_version-"; // Prefix of the manifest file
     private const string manifestFileSuffix = "_manifest"; // Suffix of the manifest file
 
-    [MenuItem("My Menu/Check Update Admob SDK", validate = false, priority = 1)] //rename it as you want "My Menu/Check Update Admob SDK" if needed
+    [MenuItem("Yashlan/Check Update Admob SDK", validate = false)] //rename it as you want "My Menu/Check Update Admob SDK" if needed
     private static void CheckUpdateAdmobSDK()
     {
         // Start the asynchronous request to get the latest version from GitHub
@@ -22,7 +22,7 @@ public static class CustomMenuAdmob
 
     private static string GetLocalAdMobVersion() //check the version we used right now
     {
-        string version = "Not Found";
+        string version = "NOT FOUND VERSION";
 
         try
         {
@@ -40,7 +40,7 @@ public static class CustomMenuAdmob
 
                         if (fileName.StartsWith(manifestFilePrefix) && fileName.EndsWith(manifestFileSuffix))
                         {
-                            version = fileName.Replace(manifestFilePrefix, "").Replace(manifestFileSuffix, "");
+                            version = "v" + fileName.Replace(manifestFilePrefix, "").Replace(manifestFileSuffix, "");
                             break;
                         }
                     }
@@ -107,7 +107,7 @@ public static class CustomMenuAdmob
 
     private static void CompareVersions(string currentVersion, string latestVersion)
     {
-        if (currentVersion == "Not Found")
+        if (currentVersion == "NOT FOUND VERSION")
         {
             Debug.LogError("Unable to find the current version of AdMob SDK.");
             return;
@@ -118,11 +118,11 @@ public static class CustomMenuAdmob
         if (comparisonResult < 0)
         {
             string url = $"https://github.com/googleads/googleads-mobile-unity/releases/tag/{latestVersion}";
-            Debug.LogWarning($"Your AdMob SDK version <b>v{currentVersion}</b> is outdated. Please update to the latest version <b>{latestVersion}</b>.\nLink to update: <color=cyan><u>{url}</u></color>");
+            Debug.LogWarning($"Your AdMob SDK version <b>{currentVersion}</b> is outdated. Please update to the latest version <b>{latestVersion}</b>.\nLink to update: <color=cyan><u>{url}</u></color>");
 
             bool download = EditorUtility.DisplayDialog(
                 "Update Available",
-                $"Your AdMob SDK version v{currentVersion} is outdated. Do you want to download the latest version {latestVersion}?",
+                $"Your AdMob SDK version {currentVersion} is outdated. Do you want to download the latest version {latestVersion}?",
                 "Yes", "Not Now"
             );
 
@@ -133,11 +133,11 @@ public static class CustomMenuAdmob
         }
         else if (comparisonResult > 0)
         {
-            Debug.Log($"Your AdMob SDK version <b>v{currentVersion}</b> is ahead of the latest release. Consider checking if this is a custom or experimental version.");
+            Debug.Log($"Your AdMob SDK version <b>{currentVersion}</b> is ahead of the latest release. Consider checking if this is a custom or experimental version.");
         }
         else
         {
-            Debug.Log($"Your AdMob SDK version <b>v{currentVersion}</b> is up to date.");
+            Debug.Log($"Your AdMob SDK version <b>{currentVersion}</b> is up to date.");
         }
     }
 
