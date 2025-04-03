@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections;
 using System.IO;
 using Unity.EditorCoroutines.Editor;
@@ -55,7 +56,7 @@ public static class CustomMenuAdmob
                 Debug.LogError($"Manifest directory not found: {manifestDirectory}");
             }
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Debug.LogError($"Error reading manifest file: {ex.Message}");
         }
@@ -98,7 +99,7 @@ public static class CustomMenuAdmob
             var json = JsonUtility.FromJson<GitHubReleaseResponse>(jsonResponse);
             return json.tag_name; // This will return the version tag
         }
-        catch (System.Exception ex)
+        catch (Exception ex)
         {
             Debug.LogError($"Error parsing JSON response: {ex.Message}");
             return null;
@@ -113,8 +114,11 @@ public static class CustomMenuAdmob
             return;
         }
 
-        int comparisonResult = string.Compare(currentVersion, latestVersion);
+        Version currentVer = new Version(currentVersion.Substring(1)); //use substring to remove 'v' char
+        Version latestVer = new Version(latestVersion.Substring(1)); //use substring to remove 'v' char
 
+        int comparisonResult = currentVer.CompareTo(latestVer);
+        
         if (comparisonResult < 0)
         {
             string url = $"https://github.com/googleads/googleads-mobile-unity/releases/tag/{latestVersion}";
@@ -141,7 +145,7 @@ public static class CustomMenuAdmob
         }
     }
 
-    [System.Serializable]
+    [Serializable]
     public class GitHubReleaseResponse
     {
         public string tag_name; // The version tag name (e.g., v9.5.0)
